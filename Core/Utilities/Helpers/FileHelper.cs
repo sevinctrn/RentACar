@@ -13,14 +13,14 @@ namespace Core.Utilities.Helpers
 
         public static IResult Add(IFormFile file)
         {
-            var fileExists = CheckFileExists(file);
+            var fileExists = CheckFile(file);
             if (fileExists.Message != null)
             {
                 return new ErrorResult(fileExists.Message);
             }
 
             var type = Path.GetExtension(file.FileName);
-            var typeValid = CheckFileTypeValid(type);
+            var typeValid = CheckFileType(type);
             var randomName = Guid.NewGuid().ToString();
 
             if (typeValid.Message != null)
@@ -28,7 +28,7 @@ namespace Core.Utilities.Helpers
                 return new ErrorResult(typeValid.Message);
             }
 
-            CheckDirectoryExists(_currentDirectory + _folderName);
+            CheckDirectory(_currentDirectory + _folderName);
             CreateImageFile(_currentDirectory + _folderName + randomName + type, file);
             return new SuccessResult((_folderName + randomName + type).Replace("\\", "/"));
 
@@ -36,14 +36,14 @@ namespace Core.Utilities.Helpers
 
         public static IResult Update(IFormFile file, string imagePath)
         {
-            var fileExists = CheckFileExists(file);
+            var fileExists = CheckFile(file);
             if (fileExists.Message != null)
             {
                 return new ErrorResult(fileExists.Message);
             }
 
             var type = Path.GetExtension(file.FileName);
-            var typeValid = CheckFileTypeValid(type);
+            var typeValid = CheckFileType(type);
             var randomName = Guid.NewGuid().ToString();
 
             if (typeValid.Message != null)
@@ -52,7 +52,7 @@ namespace Core.Utilities.Helpers
             }
 
             DeleteOldImageFile((_currentDirectory + imagePath).Replace("/", "\\"));
-            CheckDirectoryExists(_currentDirectory + _folderName);
+            CheckDirectory(_currentDirectory + _folderName);
             CreateImageFile(_currentDirectory + _folderName + randomName + type, file);
             return new SuccessResult((_folderName + randomName + type).Replace("\\", "/"));
         }
@@ -66,7 +66,7 @@ namespace Core.Utilities.Helpers
 
 
 
-        private static IResult CheckFileExists(IFormFile file)
+        private static IResult CheckFile(IFormFile file)
         {
             if (file != null && file.Length > 0)
             {
@@ -76,7 +76,7 @@ namespace Core.Utilities.Helpers
         }
 
 
-        private static IResult CheckFileTypeValid(string type)
+        private static IResult CheckFileType(string type)
         {
             if (type != ".jpeg" && type != ".png" && type != ".jpg")
             {
@@ -85,7 +85,7 @@ namespace Core.Utilities.Helpers
             return new SuccessResult();
         }
 
-        private static void CheckDirectoryExists(string directory)
+        private static void CheckDirectory(string directory)
         {
             if (!Directory.Exists(directory))
             {

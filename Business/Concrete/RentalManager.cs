@@ -56,11 +56,6 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll());
         }
 
-        /*        public IDataResult<List<RentalDetailDto>> GetRentalDetails()
-                {
-                    return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails());
-                }
-        */
         public IDataResult<List<RentalDetailDto>> GetRentalDetails(Expression<Func<Rental, bool>> filter = null)
         {
             return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails(filter), Messages.Listed);

@@ -46,11 +46,6 @@ namespace Business.Concrete
             return new SuccessDataResult<Customer>(_customerDal.Get(b => b.Id == id));
         }
 
-        /*   public IDataResult<List<CustomerDetailDto>> GetCustomerDetails()
-           {
-               return new SuccessDataResult<List<CustomerDetailDto>>(_customerDal.GetCustomerDetailDto());
-           }
-   */
         public IResult Update(Customer customer)
         {
             if (customer.CompanyName.Length > 0)

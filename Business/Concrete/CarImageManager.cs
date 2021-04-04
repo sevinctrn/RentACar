@@ -29,22 +29,7 @@ namespace Business.Concrete
             _carImageDal = carImageDal;
         }
 
-        /*    public IResult Add(IFormFile file, CarImage carImage)
-            {
-                var result = BusinessRules.Run(CheckCarImageLimit(carImage));
 
-                if (result != null)
-                {
-                    return result;
-                }
-
-                carImage.ImagePath = FileHelper.Add(file);
-                carImage.Date = DateTime.Now;
-                _carImageDal.Add(carImage);
-
-                return new SuccessResult(Messages.AddedCarImage);
-            }
-  */
         public IResult Add(IFormFile file, CarImage carImage)
               {
                   var imageCount = _carImageDal.GetAll(c => c.CarId == carImage.CarId).Count;
@@ -92,16 +77,7 @@ namespace Business.Concrete
             return new SuccessDataResult<CarImage>(_carImageDal.Get(I => I.Id == id));
         }
 
-        /*     public IResult Update(IFormFile file, CarImage carImage)
-             {
-                 var oldpath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\wwwroot")) + _carImageDal.Get(p => p.Id == carImage.Id).ImagePath;
-                 carImage.ImagePath = FileHelper.Update(oldpath, file);
-                 carImage.Date = DateTime.Now;
-                 _carImageDal.Update(carImage);
-                 return new SuccessResult();
 
-             }
-*/
         public IResult Update(IFormFile file, CarImage carImage)
                 {
                     var isImage = _carImageDal.Get(c => c.Id == carImage.Id);
@@ -129,8 +105,6 @@ namespace Business.Concrete
 
             return new SuccessResult();
         }
-
-
 
     }
 }
