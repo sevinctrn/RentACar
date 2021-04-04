@@ -1,6 +1,8 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspect.Autofac.Caching;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Helpers;
@@ -30,6 +32,7 @@ namespace Business.Concrete
         }
 
 
+        [ValidationAspect(typeof(CarImageValidator))]
         public IResult Add(IFormFile file, CarImage carImage)
               {
                   var imageCount = _carImageDal.GetAll(c => c.CarId == carImage.CarId).Count;
@@ -49,7 +52,9 @@ namespace Business.Concrete
                   _carImageDal.Add(carImage);
                   return new SuccessResult("Car image added");
               }
-          
+
+        [ValidationAspect(typeof(CarImageValidator))]
+        [SecuredOperation("admin")]
         public IResult Delete(CarImage carImage)
         {
             var oldpath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\wwwroot")) + _carImageDal.Get(I => I.Id == carImage.Id).ImagePath;
@@ -67,17 +72,22 @@ namespace Business.Concrete
 
         }
 
+        
+        [CacheAspect]
         public IDataResult<List<CarImage>> GetAll(Expression<Func<CarImage, bool>> filter = null)
         {
             return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll(filter));
         }
 
+        [ValidationAspect(typeof(CarImageValidator))]
+        [CacheAspect]
         public IDataResult<CarImage> GetById(int id)
         {
             return new SuccessDataResult<CarImage>(_carImageDal.Get(I => I.Id == id));
         }
 
-
+        [ValidationAspect(typeof(CarImageValidator))]
+        [SecuredOperation("admin")]
         public IResult Update(IFormFile file, CarImage carImage)
                 {
                     var isImage = _carImageDal.Get(c => c.Id == carImage.Id);
