@@ -1,11 +1,6 @@
-﻿using Business.Abstract;
+﻿using Microsoft.AspNetCore.Mvc;
+using Business.Abstract;
 using Entities.Concrete;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
@@ -13,14 +8,14 @@ namespace WebAPI.Controllers
     [ApiController]
     public class BrandsController : ControllerBase
     {
-        private IBrandService _brandService;
+         IBrandService _brandService;
 
-        public BrandsController(IBrandService brandService)
-        {
-            _brandService = brandService;
-        }
+         public BrandsController(IBrandService brandService)
+         {
+             _brandService = brandService;
+         }
 
-        [HttpGet("getall")]
+         [HttpGet("getall")]
         public IActionResult GetAll()
         {
             var result = _brandService.GetAll();
@@ -32,10 +27,10 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getbyid")]
-        public IActionResult GetById(int id)
+        [HttpGet("getcarbyid")]
+        public IActionResult GetCarById(int id)
         {
-            var result = _brandService.GetById(id);
+            var result = _brandService.GetCarById(id);
             if (result.Success)
             {
                 return Ok(result);
@@ -44,11 +39,22 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-
         [HttpPost("add")]
         public IActionResult Add(Brand brand)
         {
             var result = _brandService.Add(brand);
+            if (result.Success)
+            {
+                return Ok(result);
+
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getbyid")]
+        public IActionResult GetById(int id)
+        {
+            var result = _brandService.GetCarById(id);
             if (result.Success)
             {
                 return Ok(result);
@@ -77,7 +83,6 @@ namespace WebAPI.Controllers
             {
                 return Ok(result);
             }
-
             return BadRequest(result);
         }
     }

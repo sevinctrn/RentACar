@@ -1,12 +1,12 @@
-﻿using Business.Abstract;
-using Core.Entities.Concrete;
-using Entities.Concrete;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Business.Abstract;
+using Entities.Concrete;
+using Entities.DTOs;
 
 namespace WebAPI.Controllers
 {
@@ -21,6 +21,27 @@ namespace WebAPI.Controllers
             _userService = userService;
         }
 
+        [HttpGet("getbyuserid")]
+        public IActionResult GetByUserId(int userId)
+        {
+            var result = _userService.GetByUserId( userId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+        [HttpGet("id")]
+        public IActionResult GetById(int id)
+        {
+            var result = _userService.GetById(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
@@ -29,58 +50,35 @@ namespace WebAPI.Controllers
             {
                 return Ok(result);
             }
-
             return BadRequest(result);
         }
-
-        [HttpGet("getbyid")]
-        public IActionResult GetById(int id)
+        [HttpPost("updateprofile")]
+        public IActionResult ProfileUpdate(UserForUpdateDto userForUpdateDto)
         {
-            var result = _userService.GetById(id);
-            if (result.Success)
-            {
-                return Ok(result.Data);
-            }
-
-            return BadRequest(result);
-        }
-
-
-        [HttpPost("update")]
-        public IActionResult Update(User user)
-        {
-            var result = _userService.Update(user);
+            var result = _userService.EditProfil(userForUpdateDto.User, userForUpdateDto.Password);
             if (result.Success)
             {
                 return Ok(result);
             }
-
             return BadRequest(result);
         }
-
-        [HttpPost("add")]
-        public IActionResult Add(User user)
+        [HttpGet("email")]
+        public IActionResult GetByMail(string email)
         {
-            var result = _userService.Add(user);
+            var result = _userService.GetUserByEmail(email);
             if (result.Success)
             {
-                return Ok(result);
+                return Ok(new
+                {
+                    result.Data.Id,
+                    result.Data.FirstName,
+                    result.Data.LastName,
+                    result.Data.Email,
+                    result.Data.Status
+                });
             }
-
             return BadRequest(result);
         }
 
-
-        [HttpPost("delete")]
-        public IActionResult Delete(User user)
-        {
-            var result = _userService.Delete(user);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-
-            return BadRequest(result);
-        }
     }
 }

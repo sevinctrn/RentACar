@@ -1,15 +1,14 @@
-﻿using Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
+using System.ComponentModel.DataAnnotations;
+using Core.Entities;
 
 namespace Entities.Concrete
 {
-    public class Customer :IEntity
+    public class Customer : IEntity
     {
-        public int Id { get; set; }
+        [Key]
         public int UserId { get; set; }
         public string CompanyName { get; set; }
-
+        public int FindeksScore { get; set; }
     }
 }

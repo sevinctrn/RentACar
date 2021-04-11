@@ -1,11 +1,11 @@
-﻿using Business.Abstract;
-using Entities.DTOs;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Business.Abstract;
+using Entities.DTOs;
 
 namespace WebAPI.Controllers
 {
@@ -13,7 +13,7 @@ namespace WebAPI.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        IAuthService _authService;
+        private IAuthService _authService;
 
         public AuthController(IAuthService authService)
         {
@@ -28,13 +28,17 @@ namespace WebAPI.Controllers
             {
                 return BadRequest(userToLogin.Message);
             }
-            var accessToken = _authService.CreateAccessToken(userToLogin.Data);
-            if (!accessToken.Success)
-            {
-                return BadRequest(accessToken.Message);
+
+            var result = _authService.CreateAccessToken(userToLogin.Data);
+            if (result.Success)
+            { 
+                return Ok(result);
             }
-            return Ok(accessToken.Data);
+
+            return BadRequest(result.Message);
+
         }
+
         [HttpPost("register")]
         public ActionResult Register(UserForRegisterDto userForRegisterDto)
         {
@@ -43,13 +47,15 @@ namespace WebAPI.Controllers
             {
                 return BadRequest(userExists.Message);
             }
-            var userToRegister = _authService.Register(userForRegisterDto, userForRegisterDto.Password);
-            var accessToken = _authService.CreateAccessToken(userToRegister.Data);
-            if (accessToken.Success)
+
+            var registerResult = _authService.Register(userForRegisterDto, userForRegisterDto.Password);
+            var result = _authService.CreateAccessToken(registerResult.Data);
+            if (result.Success)
             {
-                return Ok(accessToken.Data);
+                return Ok(result);
             }
-            return BadRequest(accessToken.Message);
+
+            return BadRequest(result.Message);
         }
     }
 }

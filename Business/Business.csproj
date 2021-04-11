@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -9,8 +9,7 @@
     <PackageReference Include="Autofac.Extras.DynamicProxy" Version="6.0.0" />
     <PackageReference Include="FluentValidation" Version="9.5.1" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.4" />
-    <PackageReference Include="Microsoft.TestPlatform.ObjectModel" Version="16.9.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.3" />
   </ItemGroup>
 
   <ItemGroup>

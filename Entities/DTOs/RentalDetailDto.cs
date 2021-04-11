@@ -1,22 +1,18 @@
-﻿using Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using Core.Entities;
 
 namespace Entities.DTOs
 {
-   public class RentalDetailDto : IDto
+   public class RentalDetailDto:IDto
     {
-        public int Id { get; set; }
-        public string BrandName { get; set; }
-        public string ColorName { get; set; }
-        public string ModelYear { get; set; }
-        public decimal DailyPrice { get; set; }
-        public string Description { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public int RentalId { get; set; }
+        public string CarName { get; set; }
+        public string CustomerFullName { get; set; }
+        public string ImagePath { get; set; }
         public DateTime RentDate { get; set; }
+        public DateTime RentStartDate { get; set; }
+        public DateTime? RentEndDate { get; set; }
         public DateTime? ReturnDate { get; set; }
-        public string CompanyName { get; set; }
+
     }
 }

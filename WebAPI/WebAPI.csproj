@@ -11,13 +11,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Business\Business.csproj" />
-    <ProjectReference Include="..\Core\Core.csproj" />
-    <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
-    <ProjectReference Include="..\Entities\Entities.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Uploads\wwwroot\uploads\" />
+    <Folder Include="Models\" />
   </ItemGroup>
 
 
